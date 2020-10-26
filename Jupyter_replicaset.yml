@@ -16,4 +16,4 @@ spec: #specifications for our object
       - name: jupyter-container #the name of the container within the pod
         image: jupyter/tensorflow-notebook #which container image should be pulled
         ports:
-        - containerPort: 8888 #the port of the container within the pod
+        - containerPort: 8888 #the port of the container within the po
