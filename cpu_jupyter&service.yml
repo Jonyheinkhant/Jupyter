@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpujupyter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpujupyter
+  template:
+    metadata:
+      labels:
+        app: cpujupyter
+    spec:
+      containers:
+      - name: cpujupyter
+        image: jupyter/tensorflow-notebook
+        ports:
+        - containerPort: 8888
+        volumeMounts:
+        - mountPath: /tf
+          name: j-books
+      volumes:
+      - name: j-books
+        persistentVolumeClaim:
+          claimName: fffpvc
+      nodeSelector:
+        accelerator: k8s-node3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cpujupyter
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8888
+    targetPort: 8888
+    name: tcp
+  selector:
+    app: cpujupyter
